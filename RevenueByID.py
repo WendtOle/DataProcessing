@@ -4,6 +4,8 @@ import os
 import sys
 import pandas as pd
 
+from utils import getAggregatedRevenue
+
 my_parser = argparse.ArgumentParser(description='Get the revenue of a product by its itemID')
 
 my_parser.add_argument('Path',
@@ -26,10 +28,7 @@ if not os.path.isdir(data_folder_path):
     sys.exit()
 
 def getRevenueOfProductByID(item_id):
-    orders = pd.read_csv(r'' + data_folder_path + '/orders.csv', sep='|')
-    orders['agg_salesPrice'] = orders['order'] * orders['salesPrice']
-    agg_orders = orders[["itemID", "agg_salesPrice"]].groupby("itemID").sum()
-    agg_orders = agg_orders.reset_index([0, 'itemID'])
+    agg_orders = getAggregatedRevenue(data_folder_path)
     result = agg_orders[agg_orders['itemID'] == item_id]['agg_salesPrice'].values[0]
     return result
 
