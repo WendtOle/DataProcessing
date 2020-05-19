@@ -27,9 +27,10 @@ if not os.path.isdir(data_folder_path):
     print('The path specified does not exist')
     sys.exit()
 
-def getRevenueOfProductByID(item_id):
-    agg_orders = getAggregatedRevenue(data_folder_path)
-    result = agg_orders[agg_orders['itemID'] == item_id]['agg_salesPrice'].values[0]
-    return result
+agg_orders = getAggregatedRevenue(data_folder_path)
 
-print("revenue for itemID", item_id, "->" , getRevenueOfProductByID(item_id))
+try:
+    result = agg_orders[agg_orders['itemID'] == item_id]['agg_salesPrice'].values[0]
+    print("revenue for itemID", item_id, "->", result)
+except IndexError as e:
+    print("ItemID is not valid")
