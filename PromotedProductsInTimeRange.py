@@ -3,7 +3,7 @@ import os
 import sys
 import pandas as pd
 
-from utils import getAggregatedRevenue, getPromotedProducts
+from utils import get_item_revenue, getPromotedProducts
 
 #TODO
 my_parser = argparse.ArgumentParser(description='missing')

@@ -2,8 +2,7 @@ import pandas as pd
 
 from DataHandler import DataHandler
 
-def getAggregatedRevenue(data_folder_path):
-    data_handler = DataHandler(data_folder_path)
+def get_item_revenue(data_handler):
     orders = data_handler.get_orders()
     orders['agg_salesPrice'] = orders['order'] * orders['salesPrice']
     agg_orders = orders[["itemID", "agg_salesPrice"]].groupby("itemID").sum()
@@ -18,3 +17,7 @@ def getPromotedProducts(data_folder_path):
     promotion.columns = ['itemID', 'date']
     promotion['date'] = promotion['date'].astype('datetime64[ns]')
     return promotion
+
+def get_itemIDs_in_second_level_category(data_handler, category1,category2):
+    items = data_handler.get_items()
+    return items.loc[(items['category1'] == category1) & (items['category2'] == category2)]['itemID']

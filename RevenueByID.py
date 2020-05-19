@@ -4,7 +4,8 @@ import os
 import sys
 import pandas as pd
 
-from utils import getAggregatedRevenue
+from DataHandler import DataHandler
+from utils import get_item_revenue
 
 my_parser = argparse.ArgumentParser(description='Get the revenue of a product by its itemID')
 
@@ -27,7 +28,8 @@ if not os.path.isdir(data_folder_path):
     print('The path specified does not exist')
     sys.exit()
 
-agg_orders = getAggregatedRevenue(data_folder_path)
+data_handler = DataHandler(data_folder_path)
+agg_orders = get_item_revenue(data_handler)
 
 try:
     result = agg_orders[agg_orders['itemID'] == item_id]['agg_salesPrice'].values[0]

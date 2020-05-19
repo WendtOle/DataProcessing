@@ -4,7 +4,7 @@ import sys
 import pandas as pd
 
 from DataHandler import DataHandler
-from utils import getAggregatedRevenue
+from utils import get_item_revenue, get_itemIDs_in_second_level_category
 
 #TODO
 my_parser = argparse.ArgumentParser(description='missing')
@@ -36,9 +36,10 @@ if not os.path.isdir(data_folder_path):
 
 data_handler = DataHandler(data_folder_path)
 items = data_handler.get_items()
-selected_items02 = items.loc[(items['category1'] == category1) & (items['category2'] == category2)]['itemID']
 
-agg_orders = getAggregatedRevenue(data_folder_path)
+second_level_category_item_ids = get_itemIDs_in_second_level_category(data_handler, category1, category2)
+item_revenue_complete = get_item_revenue(data_handler)
+second_level_category_item_revenue = item_revenue_complete[item_revenue_complete['itemID'].isin(second_level_category_item_ids)]
 
 print("Category1:",category1, "- Category2:", category2)
-print(agg_orders[agg_orders['itemID'].isin(selected_items02)].sort_values(by=['agg_salesPrice'], ascending=False).head())
+print(second_level_category_item_revenue.sort_values(by=['agg_salesPrice'], ascending=False).head())
