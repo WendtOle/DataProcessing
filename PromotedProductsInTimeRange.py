@@ -3,6 +3,7 @@ import os
 import sys
 import pandas as pd
 
+from DataHandler import DataHandler
 from utils import get_item_revenue, getPromotedProducts
 
 #TODO
@@ -36,11 +37,12 @@ if not os.path.isdir(data_folder_path):
     print('The path specified does not exist')
     sys.exit()
 
-promotion = getPromotedProducts(data_folder_path)
-itemIDs_in_promotion = promotion[(promotion['date'] >= begin) & (promotion['date'] <= until)]['itemID']
+data_handler = DataHandler(data_folder_path)
 
-items = pd.read_csv(r'' + data_folder_path + '/items.csv', sep='|')
+promoted_items = getPromotedProducts(data_folder_path)
+promoted_item_IDs_in_range = promoted_items[(promoted_items['date'] >= begin) & (promoted_items['date'] <= until)]['itemID']
+items = data_handler.get_items()
+promoted_items_in_range = items[items['itemID'].isin(promoted_item_IDs_in_range)]
+promoted_products_per_category = promoted_items_in_range[['itemID','category1']].groupby('category1').count()
 
-items_in_promotion = items[items['itemID'].isin(itemIDs_in_promotion)]
-promoted_products = items_in_promotion[['itemID','category1']].groupby('category1').count()
-print(promoted_products.head())
+print(promoted_products_per_category)
