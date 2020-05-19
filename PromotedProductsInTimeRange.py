@@ -23,8 +23,8 @@ my_parser.add_argument('until',
                        type=str,
                        help='missing')#TODO
 
-from_date = input("Input the beginning date:")
-print(from_date)
+#from_date = input("Input the beginning date:")
+#print(from_date)
 
 # Execute the parse_args() method
 args = my_parser.parse_args()

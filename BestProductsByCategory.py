@@ -3,9 +3,11 @@ import os
 import sys
 import pandas as pd
 
+from DataHandler import DataHandler
 from utils import getAggregatedRevenue
 
-my_parser = argparse.ArgumentParser(description='Get the revenue of a product by its itemID')
+#TODO
+my_parser = argparse.ArgumentParser(description='missing')
 
 my_parser.add_argument('Path',
                        metavar='path',
@@ -15,12 +17,12 @@ my_parser.add_argument('Path',
 my_parser.add_argument('category1',
                        metavar='category1',
                        type=int,
-                       help='missing')
+                       help='missing')#TODO
 
 my_parser.add_argument('category2',
                        metavar='category2',
                        type=int,
-                       help='missing')
+                       help='missing')#TODO
 
 # Execute the parse_args() method
 args = my_parser.parse_args()
@@ -32,7 +34,8 @@ if not os.path.isdir(data_folder_path):
     print('The path specified does not exist')
     sys.exit()
 
-items = pd.read_csv(r'' + data_folder_path + '/items.csv', sep='|')
+data_handler = DataHandler(data_folder_path)
+items = data_handler.get_items()
 selected_items02 = items.loc[(items['category1'] == category1) & (items['category2'] == category2)]['itemID']
 
 agg_orders = getAggregatedRevenue(data_folder_path)
