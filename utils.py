@@ -4,12 +4,11 @@ from DataHandler import DataHandler
 
 def get_item_revenue(data_handler):
     orders = data_handler.get_orders()
-    orders['agg_salesPrice'] = orders['order'] * orders['salesPrice']
-    agg_orders = orders[["itemID", "agg_salesPrice"]].groupby("itemID").sum()
+    orders['revenue'] = orders['order'] * orders['salesPrice']
+    agg_orders = orders[["itemID", "revenue"]].groupby("itemID").sum()
     return agg_orders.reset_index([0, 'itemID'])
 
-def getPromotedProducts(data_folder_path):
-    data_handler = DataHandler(data_folder_path)
+def getPromotedProducts(data_handler):
     infos_cleaned = data_handler.get_infos().dropna()
     promotion = pd.DataFrame(infos_cleaned.promotion.str.split(',').tolist(),
                              index=infos_cleaned.itemID).stack()

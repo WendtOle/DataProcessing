@@ -1,5 +1,7 @@
-import pandas as pd
+import os
+import sys
 
+import pandas as pd
 
 class DataHandler:
 
@@ -10,7 +12,7 @@ class DataHandler:
         return self.get_csv_file('items')
 
     def get_csv_file(self,name):
-        return pd.read_csv(r'' + self.data_path + '/' + name + '.csv', sep='|')
+        return pd.read_csv(r'./' + self.data_path + '/' + name + '.csv', sep='|')
 
     def get_orders(self):
         return self.get_csv_file('orders')
